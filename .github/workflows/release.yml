@@ -20,6 +20,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       
-    - name: shellcheck
-      run: make check-scripts
+    - name: dunno
+      run: pwd && ls -la
 
