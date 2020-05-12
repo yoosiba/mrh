@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 create_release() {
-  NAME="v1.0.$(date "+%Y%m%d%H%M%S")"
+  #NAME="v1.0.$(date "+%Y%m%d%H%M%S")"
+  NAME="v0.0.1"
   COMMITISH="create_releases"
   DESC="$COMMITISH $NAME"
   DATA=$(
