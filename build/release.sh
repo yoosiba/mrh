@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
 create_release() {
-  #NAME="v1.0.$(date "+%Y%m%d%H%M%S")"
-  NAME="v0.0.1"
+  NAME="v1.0.$(date "+%Y%m%d%H%M%S")"
   COMMITISH="create_releases"
   DESC="$COMMITISH $NAME"
   DATA=$(
@@ -21,7 +20,8 @@ create_release() {
   echo "$DATA" | jq '.' || (echo "$DATA" && exit 11)
   echo "==============="
 
-  ID=$(
+  local res
+  res=$(
     curl -s 'https://api.github.com/repos/yoosiba/mrh/releases' \
       -X POST \
       -H "authorization: Bearer ${GITHUB_TOKEN}" \
@@ -31,10 +31,11 @@ create_release() {
   )
 
   echo "-----------"
-  echo "$ID" | jq '.id' || (echo "$ID" && exit 22)
+  local id
+  id=$(echo "$res" | jq '.id' || (echo "$res" && exit 22))
   echo "-----------"
 
-  upload_dist "$ID"
+  upload_dist "$id"
 }
 
 upload_dist() {
