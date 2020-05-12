@@ -4,8 +4,7 @@
 endless_spin() {
     while :; do for s in / - \\ \|; do
         printf "\r%s" "$s"
-        #sleep: cannot read realtime clock: Invalid argument
-        #sleep 1s
+        sleep 1s &>/dev/null || true #sleep: cannot read realtime clock: Invalid argument
     done; done
 }
 

@@ -16,12 +16,12 @@ get_mrh_folder() {
 }
 
 BASE=$(get_mrh_folder)
-# shellcheck source=./progress_bar.sh
-source "$BASE"/progress_bar.sh
-# shellcheck source=./find_repos.sh
-source "$BASE"/find_repos.sh
-# shellcheck source=./git_calls.sh
-source "$BASE"/git_calls.sh
+# shellcheck source=./progress_bar.bash
+source "$BASE"/progress_bar.bash
+# shellcheck source=./find_repos.bash
+source "$BASE"/find_repos.bash
+# shellcheck source=./git_calls.bash
+source "$BASE"/git_calls.bash
 
 main() {
     enable_trapping   # Make sure that the progress bar is cleaned up when user presses ctrl+c
