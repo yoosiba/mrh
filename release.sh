@@ -7,6 +7,7 @@ build_dist() {
 }
 
 test_dist() {
+  local TERM=xterm
   unzip ./bin/mrh.zip -d./bin/mrh
   ./bin/mrh/mrh.bash || exit 1
 }
