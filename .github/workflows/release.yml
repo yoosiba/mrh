@@ -27,4 +27,3 @@ jobs:
       run: ./build/release.sh
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-

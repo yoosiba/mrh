@@ -39,29 +39,23 @@ create_release() {
 upload_dist() {
   local id=$1
 
-  # if [ -n "$id" ] && [ "$id" -eq "$id" ] &>dev/null; then
-  #   if [ "$id" -le 0 ]; then
-  #     echo "expected if greater than 0 had $id"
-  #     exit 31
-  #   fi
-  # else
-  #   echo "expected a numbner had $id"
-  #   exit 32
-  # fi
-
-  FILE=$(find . -name "mrh.zip" -print)
-  echo "uploading $FILE to release id $id"
+  local bin
+  bin=$(find . -name "mrh.zip" -print)
+  echo "uploading $bin to release id $id"
   RES=$(
     curl -s "https://uploads.github.com/repos/yoosiba/mrh/releases/$id/assets?name=mrh.zip" \
       -X POST \
       -H "authorization: Bearer ${GITHUB_TOKEN}" \
       -H "Accept: application/vnd.github.v3+json" \
-      -H "Content-Type: $(file -b --mime-type "$FILE")" \
-      --data-binary @"$FILE"
+      -H "Content-Type: $(file -b --mime-type "$bin")" \
+      --data-binary @"$bin"
   )
 
   echo "finished upload"
   echo "$RES" | jq '.' || (echo "$RES" && exit 33)
 }
+
+echo "sha $GITHUB_SHA"
+echo "ref $GITHUB_REF"
 
 create_release
