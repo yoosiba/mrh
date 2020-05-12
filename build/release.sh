@@ -16,9 +16,9 @@ create_release() {
     }'
   ) || exit 1
 
-  echo "==============="
+  echo "creating release with data:"
   echo "$DATA" | jq '.' || (echo "$DATA" && exit 11)
-  echo "==============="
+  echo "   "
 
   local res
   res=$(
@@ -30,10 +30,8 @@ create_release() {
       --data-binary "$DATA"
   )
 
-  echo "-----------"
   local id
   id=$(echo "$res" | jq '.id' || (echo "$res" && exit 22))
-  echo "-----------"
 
   upload_dist "$id"
 }
@@ -41,18 +39,18 @@ create_release() {
 upload_dist() {
   local id=$1
 
-  if [ -n "$id" ] && [ "$id" -eq "$id" ] &>dev/null; then
-    if [ "$id" -le 0 ]; then
-      echo "expected if greater than 0 had $id"
-      exit 31
-    fi
-  else
-    echo "expected a numbner had $id"
-    exit 32
-  fi
+  # if [ -n "$id" ] && [ "$id" -eq "$id" ] &>dev/null; then
+  #   if [ "$id" -le 0 ]; then
+  #     echo "expected if greater than 0 had $id"
+  #     exit 31
+  #   fi
+  # else
+  #   echo "expected a numbner had $id"
+  #   exit 32
+  # fi
 
   FILE=$(find . -name "mrh.zip" -print)
-  echo "$FILE"
+  echo "uploading $FILE to release id $id"
   RES=$(
     curl -s "https://uploads.github.com/repos/yoosiba/mrh/releases/$id/assets?name=mrh.zip" \
       -X POST \
@@ -62,10 +60,8 @@ upload_dist() {
       --data-binary @"$FILE"
   )
 
-  echo "___________"
+  echo "finished upload"
   echo "$RES" | jq '.' || (echo "$RES" && exit 33)
-  echo "___________"
-
 }
 
 create_release
