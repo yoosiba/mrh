@@ -21,7 +21,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: create_dist
-      run: ./release.sh
+      run: .build/release.sh
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

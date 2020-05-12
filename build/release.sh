@@ -1,18 +1,5 @@
 #!/usr/bin/env bash
 
-TERM=xterm
-
-build_dist() {
-  rm -rf bin
-  mkdir bin
-  zip ./bin/mrh.zip ./*.bash
-}
-
-test_dist() {
-  unzip ./bin/mrh.zip -d./bin/mrh
-  ./bin/mrh/mrh.bash || exit 1
-}
-
 create_release() {
   NAME="v1.0.$(date "+%Y%m%d%H%M%S")"
   COMMITISH="create_releases"
@@ -49,7 +36,5 @@ upload_dist() {
   echo "todo upload zip"
 }
 
-build_dist
-test_dist
 create_release
 upload_dist

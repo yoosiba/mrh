@@ -22,6 +22,6 @@ jobs:
       
     - name: shellcheck
       run: |
-        shellcheck ./*.bash
-        shellcheck ./*.sh
+        shellcheck **/*.bash
+        shellcheck **/*.sh
 
