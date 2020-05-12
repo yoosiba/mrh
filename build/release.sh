@@ -2,8 +2,8 @@
 
 create_release() {
   NAME="v1.0.$(date "+%Y%m%d%H%M%S")"
-  COMMITISH="create_releases"
-  DESC="$COMMITISH $NAME"
+  COMMITISH="$GITHUB_SHA"
+  DESC="release from $GITHUB_REF ($GITHUB_SHA)"
   DATA=$(
     jq -n --arg name "$NAME" --arg desc "$DESC" --arg ish "$COMMITISH" \
       '{
@@ -54,8 +54,5 @@ upload_dist() {
   echo "finished upload"
   echo "$RES" | jq '.' || (echo "$RES" && exit 33)
 }
-
-echo "sha $GITHUB_SHA"
-echo "ref $GITHUB_REF"
 
 create_release
