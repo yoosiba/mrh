@@ -17,7 +17,7 @@ create_release() {
   ) || exit 1
 
   echo "==============="
-  echo "$DATA" | jq '.' || echo "$DATA" && exit 1
+  echo "$DATA" | jq '.' || (echo "$DATA" && exit 11)
   echo "==============="
 
   RES=$(
@@ -32,7 +32,7 @@ EOF
   )
 
   echo "-----------"
-  echo "$RES" | jq '.' || echo "$RES" && exit 1
+  echo "$RES" | jq '.' || (echo "$RES" && exit 22)
   echo "-----------"
 }
 
