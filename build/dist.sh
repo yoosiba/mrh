@@ -3,9 +3,9 @@
 TERM=xterm
 
 build_dist() {
-  rm -rf bin
-  mkdir bin
-  zip ./bin/mrh.zip ./*.bash
+  rm -rf ./bin
+  mkdir ./bin
+  zip ./bin/mrh.zip ./src/*.bash -j
 }
 
 test_dist() {
