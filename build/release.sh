@@ -27,9 +27,7 @@ create_release() {
       -H "authorization: Bearer ${GITHUB_TOKEN}" \
       -H "Accept: application/vnd.github.v3+json" \
       -H "Content-Type: application/json; charset=utf-8" \
-      --data-binary @- <<EOF
-    "$DATA"
-EOF
+      --data-binary "$DATA"
   )
 
   echo "-----------"
@@ -42,7 +40,7 @@ EOF
 upload_dist() {
   local id=$1
 
-  if [ -n "$id" ] && [ "$id" -eq "$id" ]; then
+  if [ -n "$id" ] && [ "$id" -eq "$id" ] &>dev/null; then
     if [ "$id" -le 0 ]; then
       echo "expected if greater than 0 had $id"
       exit 31
