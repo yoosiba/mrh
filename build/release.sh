@@ -35,13 +35,27 @@ EOF
   echo "$ID" | jq '.id' || (echo "$ID" && exit 22)
   echo "-----------"
 
+  upload_dist "$ID"
+}
+
+upload_dist() {
+  local id=$1
+
+  if [ -n "$id" ] && [ "$id" -eq "$id" ]; then
+    if [ "$id" -le 0 ]; then
+      echo "expected if greater than 0 had $id"
+    fi
+  else
+    echo "expected a numbner had $id"
+  fi
+
   pwd
   ls ./
 
   FILE=$(find . -name "mrh.zip")
   echo "$FILE"
   RES=$(
-    curl -s "https://uploads.github.com/repos/yoosiba/mrh/releases/$ID/assets?name=mrh.zip" \
+    curl -s "https://uploads.github.com/repos/yoosiba/mrh/releases/$id/assets?name=mrh.zip" \
       -X POST \
       -H "authorization: Bearer ${GITHUB_TOKEN}" \
       -H "Accept: application/vnd.github.v3+json" \
@@ -50,14 +64,9 @@ EOF
   )
 
   echo "___________"
-  echo "$RES" | jq '.id' || (echo "$ID" && exit 33)
+  echo "$RES" | jq '.' || (echo "$RES" && exit 33)
   echo "___________"
 
 }
 
-upload_dist() {
-  echo "todo upload zip"
-}
-
 create_release
-upload_dist

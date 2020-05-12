@@ -23,9 +23,8 @@ jobs:
     - name: shellcheck
       run: |
         pushd src >/dev/null
-        shellcheck **/*.bash
+        shellcheck *.bash
         popd >/dev/null
         pushd src >/dev/null
-        shellcheck **/*.sh
+        shellcheck *.sh
         popd >/dev/null
-
