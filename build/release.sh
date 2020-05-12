@@ -44,15 +44,14 @@ upload_dist() {
   if [ -n "$id" ] && [ "$id" -eq "$id" ]; then
     if [ "$id" -le 0 ]; then
       echo "expected if greater than 0 had $id"
+      exit 31
     fi
   else
     echo "expected a numbner had $id"
+    exit 32
   fi
 
-  pwd
-  ls ./
-
-  FILE=$(find . -name "mrh.zip")
+  FILE=$(find . -name "mrh.zip" -print)
   echo "$FILE"
   RES=$(
     curl -s "https://uploads.github.com/repos/yoosiba/mrh/releases/$id/assets?name=mrh.zip" \
