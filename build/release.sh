@@ -16,6 +16,10 @@ create_release() {
     }'
   ) || exit 1
 
+  echo "==============="
+  echo "$DATA" | jq '.' || echo "$DATA" && exit 1
+  echo "==============="
+
   RES=$(
     curl -s 'https://api.github.com/repos/yoosiba/mrh/releases' \
       -X POST \
