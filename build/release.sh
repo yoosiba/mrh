@@ -20,7 +20,7 @@ create_release() {
   echo "$DATA" | jq '.' || (echo "$DATA" && exit 11)
   echo "==============="
 
-  RES=$(
+  ID=$(
     curl -s 'https://api.github.com/repos/yoosiba/mrh/releases' \
       -X POST \
       -H "authorization: Bearer ${GITHUB_TOKEN}" \
@@ -32,8 +32,27 @@ EOF
   )
 
   echo "-----------"
-  echo "$RES" | jq '.' || (echo "$RES" && exit 22)
+  echo "$ID" | jq '.id' || (echo "$ID" && exit 22)
   echo "-----------"
+
+  pwd
+  ls ./
+
+  FILE=$(find . -name "mrh.zip")
+  echo "$FILE"
+  RES=$(
+    curl -s "https://uploads.github.com/repos/yoosiba/mrh/releases/$ID/assets?name=mrh.zip" \
+      -X POST \
+      -H "authorization: Bearer ${GITHUB_TOKEN}" \
+      -H "Accept: application/vnd.github.v3+json" \
+      -H "Content-Type: $(file -b --mime-type "$FILE")" \
+      --data-binary @"$FILE"
+  )
+
+  echo "___________"
+  echo "$RES" | jq '.id' || (echo "$ID" && exit 33)
+  echo "___________"
+
 }
 
 upload_dist() {
