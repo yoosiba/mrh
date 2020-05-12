@@ -19,7 +19,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-      
-    - name: dunno
-      run: pwd && ls -la
+
+    - name: create_dist
+      run: ./release.sh
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
