@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
 
 create_release() {
-  NAME="v1.0.$(date "+%Y%m%d%H%M%S")"
-  COMMITISH="$GITHUB_SHA"
-  DESC="release from $GITHUB_REF ($GITHUB_SHA)"
-  DATA=$(
-    jq -n --arg name "$NAME" --arg desc "$DESC" --arg ish "$COMMITISH" \
+  local version
+  version="v1.0.$(date "+%Y%m%d%H%M%S")"
+  local commitish
+  commitish="$GITHUB_SHA"
+  local desc
+  desc="release from $GITHUB_REF ($GITHUB_SHA)"
+  local req_data
+  req_data=$(
+    jq -n --arg name "$version" --arg desc "$desc" --arg ish "$commitish" \
       '{
       "tag_name": $name,
       "target_commitish": $ish,
@@ -17,7 +21,7 @@ create_release() {
   ) || exit 1
 
   echo "creating release with data:"
-  echo "$DATA" | jq '.' || (echo "$DATA" && exit 11)
+  echo "$req_data" | jq '.' || (echo "$req_data" && exit 11)
   echo "   "
 
   local res
@@ -27,7 +31,7 @@ create_release() {
       -H "authorization: Bearer ${GITHUB_TOKEN}" \
       -H "Accept: application/vnd.github.v3+json" \
       -H "Content-Type: application/json; charset=utf-8" \
-      --data-binary "$DATA"
+      --data-binary "$req_data"
   )
 
   local id
@@ -42,7 +46,8 @@ upload_dist() {
   local bin
   bin=$(find . -name "mrh.zip" -print)
   echo "uploading $bin to release id $id"
-  RES=$(
+  local res
+  res=$(
     curl -s "https://uploads.github.com/repos/yoosiba/mrh/releases/$id/assets?name=mrh.zip" \
       -X POST \
       -H "authorization: Bearer ${GITHUB_TOKEN}" \
@@ -52,7 +57,7 @@ upload_dist() {
   )
 
   echo "finished upload"
-  echo "$RES" | jq '.' || (echo "$RES" && exit 33)
+  echo "$res" | jq '.' || (echo "$res" && exit 33)
 }
 
 create_release
