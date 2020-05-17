@@ -15,4 +15,4 @@ Get latest release form https://github.com/yoosiba/mrh/releases. Download zip an
 
 ### no install
 You can just `git clone` the source. You will get some obsolete stuff, but project is usable just by 
-running `./mrh/sr/mrh.bash`.
+running `./mrh/src/mrh.bash`.
