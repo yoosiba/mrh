@@ -4,7 +4,7 @@ name: release
 on:
   push:
     branches:
-      - 'master'
+      - 'update'
 
 defaults:
   run:
@@ -17,10 +17,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: create_dist
-      run: ./build/dist.sh
-
     - name: create_release
       run: ./build/release.sh
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        TERM: xterm

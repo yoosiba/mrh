@@ -1,8 +1,29 @@
 #!/usr/bin/env bash
 
+build_dist() {
+  local ver #version info
+  ver="$1"
+
+  rm -rf ./bin
+  mkdir ./bin
+
+  zip ./bin/mrh.zip ./src/*.bash -j
+
+  echo "$ver" >./bin/.version
+  zip -r ./bin/mrh.zip ./bin/.version -j
+}
+
+test_dist() {
+  unzip ./bin/mrh.zip -d./bin/mrh
+  ./bin/mrh/mrh.bash || exit 1
+}
+
 create_release() {
   local version
-  version="v1.0.$(date "+%Y%m%d%H%M%S")"
+  version="$1"
+
+  local -n rel_id=$2
+
   local commitish
   commitish="$GITHUB_SHA"
   local desc
@@ -34,21 +55,19 @@ create_release() {
       --data-binary "$req_data"
   )
 
-  local id
-  id=$(echo "$res" | jq '.id' || (echo "$res" && exit 22))
-
-  upload_dist "$id"
+  rel_id=$(echo "$res" | jq '.id' || (echo "$res" && exit 22))
+  echo "created release $rel_id"
 }
 
 upload_dist() {
-  local id=$1
+  local rel_id=$1
 
   local bin
   bin=$(find . -name "mrh.zip" -print)
-  echo "uploading $bin to release id $id"
+  echo "uploading $bin to release id $rel_id"
   local res
   res=$(
-    curl -s "https://uploads.github.com/repos/yoosiba/mrh/releases/$id/assets?name=mrh.zip" \
+    curl -s "https://uploads.github.com/repos/yoosiba/mrh/releases/$rel_id/assets?name=mrh.zip" \
       -X POST \
       -H "authorization: Bearer ${GITHUB_TOKEN}" \
       -H "Accept: application/vnd.github.v3+json" \
@@ -60,4 +79,15 @@ upload_dist() {
   echo "$res" | jq '.' || (echo "$res" && exit 33)
 }
 
-create_release
+release() {
+  local version
+  version="$(date "+%Y%m%d%H%M%S")"
+  build_dist version
+  test_dist
+
+  local release_id
+  release_id="dummy"
+  create_release "$version" release_id
+  upload_dist "$release_id"
+
+}
