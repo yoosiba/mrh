@@ -91,3 +91,5 @@ release() {
   upload_dist "$release_id"
 
 }
+
+release
