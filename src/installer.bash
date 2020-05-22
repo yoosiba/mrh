@@ -22,6 +22,37 @@ check_deps() {
     check_dep 'git' '--version'
 }
 
+check_update() {
+    local local_version
+    # TODO BASE  main
+    [ -f "$BASE"/.veersion ] && local_version=$(cat "$BASE"/.veersion) || local_version="UNKOWN"
+
+    local remote_version
+
+    # TODO duplicate with install
+    local latest # metadata for latest release
+    latest=$(curl -s https://api.github.com/repos/yoosiba/mrh/releases/latest)
+    local download_url # download url for resolved latest binary
+    download_url=$(echo "$latest" | jq -r '.assets[] | select(.name | test("mrh.zip")) | .browser_download_url')
+    local version_tag #tag is version
+    version_tag=$(echo "$latest" | jq -r '.tag_name')
+
+    remote_version=$version_tag
+
+    if [ "$local_version" != "$remote_version" ]; then
+        echo "update $local_version -> $remote_version"
+    else
+        echo "latest :)"
+    fi
+
+}
+
+do_update() {
+    pushd "$BASE"/.. >/dev/null || exit 43
+    curl -fsSL https://raw.githubusercontent.com/yoosiba/mrh/master/src/installer.bash | bash
+    popd >/dev/null || exit 42
+}
+
 install() {
     check_deps
     echo ""
