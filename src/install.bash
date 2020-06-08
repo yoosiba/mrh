@@ -20,6 +20,7 @@ check_deps() {
     check_dep 'jq' '--version'
     check_dep 'unzip' '-v'
     check_dep 'git' '--version'
+    check_dep 'md5sum' '--version'
 }
 
 install() {

@@ -14,11 +14,16 @@ update() {
 
     if [ "$local_version" != "$remote_version" ]; then
         echo "update $local_version -> $remote_version"
-        #pushd "$BASE"/.. >/dev/null || exit 52
-        pushd "$BASE"/.. || exit 52
+        pushd "$BASE"/.. >/dev/null || exit 52
+        [[ -d ./mrh ]] || echo "pre-pdate can't locate " ./mrh && exit 53
+        local pre_checksum # save checksum for update self test
+        pre_checksum=$(md5sum ./mrh | cut -d " " -f1)
         curl -fsSL https://raw.githubusercontent.com/yoosiba/mrh/master/src/installer.bash | bash
-        popd || exit 51
-        #popd >/dev/null || exit 51
+        [[ -d ./mrh ]] || echo "post-update can't locate " ./mrh && exit 54
+        local post_checksum # save checksum for update self test
+        post_checksum=$(md5sum ./mrh | cut -d " " -f1)
+        [[ "$pre_checksum" == "$post_checksum" ]] || echo "mds did not change $pre_checksum" && exit 55
+        popd >/dev/null || exit 51
     else
         echo "using lates version $local_version"
     fi

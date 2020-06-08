@@ -32,8 +32,7 @@ main() {
     parse_commandline arguments "$@"
 
     if [[ ${arguments[UPDATE]} == "on" ]]; then
-        update
-        exit 0
+        update && exit 0 || exit 7
     fi
 
     enable_trapping   # Make sure that the progress bar is cleaned up when user presses ctrl+c
