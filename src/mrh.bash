@@ -16,14 +16,25 @@ get_mrh_folder() {
 }
 
 BASE=$(get_mrh_folder)
+# shellcheck source=./get_cmd_args.bash
+source "$BASE"/get_cmd_args.bash
 # shellcheck source=./progress_bar.bash
 source "$BASE"/progress_bar.bash
 # shellcheck source=./find_repos.bash
 source "$BASE"/find_repos.bash
 # shellcheck source=./git_calls.bash
 source "$BASE"/git_calls.bash
+# shellcheck source=./update.bash
+source "$BASE"/update.bash
 
 main() {
+    declare -A arguments=()
+    parse_commandline arguments "$@"
+
+    if [[ ${arguments[UPDATE]} == "on" ]]; then
+        update && exit 0 || exit 7
+    fi
+
     enable_trapping   # Make sure that the progress bar is cleaned up when user presses ctrl+c
     setup_scroll_area # Create progress bar
 
@@ -41,4 +52,4 @@ main() {
     destroy_scroll_area
 }
 
-main
+main "$@"

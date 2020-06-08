@@ -21,10 +21,4 @@ jobs:
     - uses: actions/checkout@v2
       
     - name: shellcheck
-      run: |
-        pushd src >/dev/null
-        shellcheck *.bash
-        popd >/dev/null
-        pushd build >/dev/null
-        shellcheck *.sh
-        popd >/dev/null
+      run: ./build/ci.sh

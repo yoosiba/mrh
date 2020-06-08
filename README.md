@@ -7,7 +7,7 @@ Among other things this project depends on (newish) `bash` and `curl`. Having th
 installing is to execute latest install script.
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/yoosiba/mrh/master/src/installer.bash | bash
+curl -fsSL https://raw.githubusercontent.com/yoosiba/mrh/master/src/install.bash | bash
 ```
 
 ### manual
@@ -15,4 +15,4 @@ Get latest release form https://github.com/yoosiba/mrh/releases. Download zip an
 
 ### no install
 You can just `git clone` the source. You will get some obsolete stuff, but project is usable just by 
-running `./mrh/sr/mrh.bash`.
+running `./mrh/src/mrh.bash`.
