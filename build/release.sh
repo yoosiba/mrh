@@ -2,7 +2,7 @@
 
 # let workflow find dist script
 # shellcheck source=./dist.sh
-source "$(find . -name "mrh.zip" -print)" || exit 44
+source "$(find . -name "dist.sh" -print)" || exit 44
 
 create_release() {
   local version
