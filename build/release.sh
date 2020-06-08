@@ -1,22 +1,6 @@
 #!/usr/bin/env bash
 
-build_dist() {
-  local ver #version info
-  ver="$1"
-
-  rm -rf ./bin
-  mkdir ./bin
-
-  zip ./bin/mrh.zip ./src/*.bash -j
-
-  echo "$ver" >./bin/.version
-  zip -r ./bin/mrh.zip ./bin/.version -j
-}
-
-test_dist() {
-  unzip ./bin/mrh.zip -d./bin/mrh
-  ./bin/mrh/mrh.bash || exit 1
-}
+source ./dist.sh
 
 create_release() {
   local version
@@ -82,8 +66,7 @@ upload_dist() {
 release() {
   local version
   version="$(date "+%Y%m%d%H%M%S")"
-  build_dist version
-  test_dist
+  dist "$version"
 
   local release_id
   release_id="dummy"

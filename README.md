@@ -7,7 +7,7 @@ Among other things this project depends on (newish) `bash` and `curl`. Having th
 installing is to execute latest install script.
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/yoosiba/mrh/master/src/installer.bash | bash
+curl -fsSL https://raw.githubusercontent.com/yoosiba/mrh/master/src/install.bash | bash
 ```
 
 ### manual
