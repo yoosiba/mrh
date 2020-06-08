@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-source ./dist.sh
+# let workflow find dist script
+# shellcheck source=./dist.sh
+source "$(find . -name "mrh.zip" -print)" || exit 44
 
 create_release() {
   local version
@@ -48,6 +50,7 @@ upload_dist() {
 
   local bin
   bin=$(find . -name "mrh.zip" -print)
+  [[ -f "$bin" ]] || echo "can't locate dist file $bin" && exit 77
   echo "uploading $bin to release id $rel_id"
   local res
   res=$(

@@ -28,8 +28,10 @@ install() {
     echo ""
     local latest # metadata for latest release
     latest=$(curl -s https://api.github.com/repos/yoosiba/mrh/releases/latest)
+    echo "latest: $latest"
     local download_url # download url for resolved latest binary
     download_url=$(echo "$latest" | jq -r '.assets[] | select(.name | test("mrh.zip")) | .browser_download_url')
+    echo "download_url $download_url"
     local version_tag #tag is version
     version_tag=$(echo "$latest" | jq -r '.tag_name')
     echo "installing $version_tag"
