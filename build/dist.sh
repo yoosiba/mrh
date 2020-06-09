@@ -15,8 +15,8 @@ build_dist() {
 
 test_dist() {
   unzip ./bin/mrh.zip -d./bin/mrh
-  ./bin/mrh/mrh.bash || exit 1
-  #./bin/mrh/mrh.bash -ud || exit 1
+  ./bin/mrh/mrh.bash
+  ./bin/mrh/mrh.bash -ud
 }
 
 dist() {
