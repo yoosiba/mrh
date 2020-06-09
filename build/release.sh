@@ -1,12 +1,8 @@
 #!/usr/bin/env bash
 
-<<<<<<< HEAD
 # let workflow find dist script
 # shellcheck source=./dist.sh
 source "$(find . -name "dist.sh" -print)" || exit 44
-=======
-source ./dist.sh
->>>>>>> origin
 
 create_release() {
   local version
