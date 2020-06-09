@@ -50,6 +50,7 @@ upload_dist() {
 
   local bin
   bin=$(find . -name "mrh.zip" -print)
+  echo "upload " "$bin" " to " "$rel_id"
   [[ -f "$bin" ]] || echo "can't locate dist file $bin" && exit 77
   echo "uploading $bin to release id $rel_id"
   local res
