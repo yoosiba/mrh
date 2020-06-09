@@ -4,7 +4,7 @@ name: release
 on:
   push:
     branches:
-      - 'release_fix_3'
+      - 'master'
 
 defaults:
   run:
