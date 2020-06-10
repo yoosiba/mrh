@@ -154,9 +154,9 @@ print_bar_text() {
     local bar_size # terminal columns - text - percentage lenght
     bar_size=$(($(tput cols) - 17 - ${#percentage}))
     local complete_size # completed columns based on completed percentage
-    complete_size=$(echo - | awk "{print (($bar_size * $percentage)/100)}")
+    complete_size=$(echo "scale=2; (($bar_size * $percentage)/100)" | bc)
     local remainder_size # not completed part
-    remainder_size=$(echo - | awk "{print $bar_size - $complete_size}")
+    remainder_size=$(echo "scale=2; $bar_size - $complete_size" | bc)
 
     local color="${COLOR_FG}${COLOR_BG}"
     if [ "$PROGRESS_BLOCKED" = "true" ]; then

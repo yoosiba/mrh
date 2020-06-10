@@ -44,7 +44,7 @@ main() {
     local progress=0
     local len=${#repos[@]}
     for repo in "${repos[@]}"; do
-        progress=$(echo - | awk "{print $progress + ((1.0 / $len)*100)}")
+        progress=$(echo "scale=2; $progress + ((1.0 / $len)*100)" | bc)
         draw_progress_bar "$progress"
         echo -en "@ ${repo} \r"
         git_status "$repo" "$TO_SCAN"
