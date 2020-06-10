@@ -15,13 +15,13 @@ update() {
     if [ "$local_version" != "$remote_version" ]; then
         echo "update $local_version -> $remote_version"
         pushd "$BASE"/.. >/dev/null || exit 52
-        [[ -d ./mrh ]] || echo "pre-pdate can't locate " ./mrh && exit 53
+        [[ -d ./mrh ]] || (echo "pre-pdate can't locate " ./mrh && exit 53)
         local pre_checksum # save checksum for update self test
-        pre_checksum=$(md5sum ./mrh | cut -d " " -f1)
-        curl -fsSL https://raw.githubusercontent.com/yoosiba/mrh/master/src/installer.bash | bash
-        [[ -d ./mrh ]] || echo "post-update can't locate " ./mrh && exit 54
+        pre_checksum=$(find ./mrh -type f | sort -u | xargs cat | md5sum | cut -d " " -f1)
+        curl -fsSL https://raw.githubusercontent.com/yoosiba/mrh/master/src/install.bash | bash
+        [[ -d ./mrh ]] || (echo "post-update can't locate " ./mrh && exit 54)
         local post_checksum # save checksum for update self test
-        post_checksum=$(md5sum ./mrh | cut -d " " -f1)
+        post_checksum=$(find ./mrh -type f | sort -u | xargs cat | md5sum | cut -d " " -f1)
         [[ "$pre_checksum" == "$post_checksum" ]] || echo "mds did not change $pre_checksum" && exit 55
         popd >/dev/null || exit 51
     else

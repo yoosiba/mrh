@@ -14,9 +14,11 @@ build_dist() {
 }
 
 test_dist() {
+  set -x
   unzip ./bin/mrh.zip -d./bin/mrh
   ./bin/mrh/mrh.bash
   ./bin/mrh/mrh.bash -ud
+  set +x
 }
 
 dist() {
