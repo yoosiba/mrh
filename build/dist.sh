@@ -14,9 +14,14 @@ build_dist() {
 }
 
 test_dist() {
-  unzip ./bin/mrh.zip -d./bin/mrh_dist_test
-  ./bin/mrh_dist_path/mrh.bash
-  ./bin/mrh_dist_path/mrh.bash -ud
+  mkdir ./bin/mrh_dist_test
+  cp ./bin/mrh.zip ./bin/mrh_dist_test/
+  unzip ./bin/mrh_dist_test/mrh.zip -d ./bin/mrh_dist_test/mrh
+
+  ./bin/mrh_dist_test/mrh/mrh.bash
+  ./bin/mrh_dist_test/mrh/mrh.bash -ud
+
+  rm -rf ./bin/mrh_dist_test
 }
 
 dist() {
