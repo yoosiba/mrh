@@ -14,17 +14,17 @@ build_dist() {
 }
 
 test_dist() {
+  pwd && ls -la
   mkdir ./bin/mrh_dist_test
   cp ./bin/mrh.zip ./bin/mrh_dist_test/
   pushd ./bin/mrh_dist_test >/dev/null || exit 62
-  ls -la
+  pwd && ls -la
   unzip ./mrh.zip -d .
-  ls -la
-  ls -./mrh/
+  pwd && ls -la
   ./mrh/mrh.bash
   ./mrh/mrh.bash -ud
   popd >/dev/null || exit 61
-  ls -la
+  pwd && ls -la
 }
 
 dist() {
