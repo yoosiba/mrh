@@ -19,11 +19,13 @@ test_dist() {
   cp ./bin/mrh.zip ./bin/mrh_dist_test/
   pushd ./bin/mrh_dist_test >/dev/null || exit 62
   pwd && ls -la
-  unzip ./mrh.zip -d .
+  unzip ./mrh.zip -d ./mrh
   pwd && ls -la
   ./mrh/mrh.bash
   ./mrh/mrh.bash -ud
   popd >/dev/null || exit 61
+  pwd && ls -la
+  rm -rf ./bin/mrh_dist_test
   pwd && ls -la
 }
 
