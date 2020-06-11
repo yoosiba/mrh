@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 # let workflow find dist script
+dist_path="$(find . -name "dist.sh" -print)"
+[[ -f "$dist_path" ]] || (echo "can't locate dist script $bin" && exit 777)
 # shellcheck source=./dist.sh
 source "$(find . -name "dist.sh" -print)" || exit 44
 
