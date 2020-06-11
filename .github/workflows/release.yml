@@ -4,7 +4,7 @@ name: release
 on:
   push:
     branches:
-      - 'dist_load'
+      - 'master'
 
 defaults:
   run:
